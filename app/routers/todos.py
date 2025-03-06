@@ -13,7 +13,7 @@ router = APIRouter(
 
 
 @router.post("/todos")
-async def create_todo(session: SessionDep, todo: Todo):
+async def create_todo(session: SessionDep, todo: Todo) -> Todo:
     session.add(todo)
     session.commit()
     session.refresh(todo)
@@ -31,14 +31,14 @@ async def get_todos(
 
 
 @router.get("/todos/{todo_id}")
-async def get_todo_by_id(session: SessionDep, todo_id: int):
+async def get_todo_by_id(session: SessionDep, todo_id: int) -> Todo:
     todo = session.get(Todo, todo_id)
     if todo is None:
         raise HTTPException(status_code=404, detail="Todo not found")
     return todo
 
 
-async def edit_todo_by_id(session: SessionDep, todo_id: int, todo: Todo):
+async def edit_todo_by_id(session: SessionDep, todo_id: int, todo: Todo) -> Todo:
     todo = session.get(Todo, todo_id)
     if todo is None:
         raise HTTPException(status_code=404, detail="Todo not found")
