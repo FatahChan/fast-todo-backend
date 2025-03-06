@@ -25,7 +25,7 @@ async def get_todos(
     session: SessionDep,
     offset: int = 0,
     limit: Annotated[int, Query(le=100)] = 100,
-):
+) -> list[Todo]:
     todos = session.exec(select(Todo).offset(offset).limit(limit)).all()
     return todos
 
