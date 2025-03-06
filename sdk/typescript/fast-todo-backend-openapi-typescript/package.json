@@ -10,6 +10,7 @@
     "url": "https://github.com/FatahChan/fast-todo-backend/",
     "directory": "sdk/typescript/fast-todo-backend-openapi-typescript"
   },
+  "version": "0.0.1",
   "scripts": {},
   "dependencies": {},
   "typeScriptVersion": "=<4.5",
