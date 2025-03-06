@@ -166,3 +166,8 @@ database.db
 
 # OpenAPI
 openapi.json
+
+.ruff_cache
+
+# TypeScript
+*.ts

@@ -1,0 +1,49 @@
+name: Node.js Package
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  publish-gpr:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install uv
+        run: pip install uv
+
+      - name: Install dependencies
+        run: |
+          uv sync
+
+      - name: Generate OpenAPI Schema
+        run: |
+          PYTHONPATH=$PWD:. ./.venv/bin/python app/generate-open-api-schema.py
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://npm.pkg.github.com/
+
+      - name: Generate TypeScript types
+        run: |
+          npx openapi-typescript openapi.json -o sdk/typescript/fast-todo-backend-openapi-typescript/index.d.ts -y
+
+      - name: Sync package version
+        run: |
+          VERSION=$(python -c "import tomllib; print(tomllib.load(open('pyproject.toml', 'rb'))['project']['version'])")
+          cd sdk/typescript/fast-todo-backend-openapi-typescript
+          npm version $VERSION --no-git-tag-version --allow-same-version
+
+      - run: cd sdk/typescript/fast-todo-backend-openapi-typescript && npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
