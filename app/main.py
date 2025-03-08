@@ -3,6 +3,7 @@ from importlib.resources import files
 from fastapi import FastAPI
 from app.database import create_db_and_tables
 from app.routers import todos
+from fastapi.middleware.cors import CORSMiddleware
 
 # Read project metadata from pyproject.toml using package root
 pyproject_path = files("app").parent / "pyproject.toml"
@@ -15,6 +16,18 @@ app = FastAPI(
     description=pyproject["project"]["description"],
 )
 
+origins = [
+    "http://localhost",
+    "http://localhost:3000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 app.include_router(todos.router)
 
 

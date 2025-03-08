@@ -7,8 +7,6 @@ from sqlmodel import select, SQLModel
 
 class TodoCreate(SQLModel):
     name: str
-    completed: bool = False
-
 
 router = APIRouter(
     prefix="/todos",
@@ -16,10 +14,9 @@ router = APIRouter(
     responses={404: {"description": "Not found"}},
 )
 
-
 @router.post("/")
 async def create_todo(session: SessionDep, todo: TodoCreate) -> Todo:
-    db_todo = Todo(name=todo.name, completed=todo.completed)
+    db_todo = Todo(name=todo.name, completed=False)
     session.add(db_todo)
     session.commit()
     session.refresh(db_todo)
