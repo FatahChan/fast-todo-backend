@@ -1,0 +1,26 @@
+{
+  "name": "@fatahchan/fast-todo-backend-openapi-typescript",
+  "description": "Openapi TypeScript types definitions for fast-todo-backend",
+  "homepage": "https://github.com/FatahChan/fast-todo-backend",
+  "license": "MIT",
+  "main": "",
+  "types": "index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/FatahChan/fast-todo-backend/",
+    "directory": "sdk/typescript/fast-todo-backend-openapi-zodios"
+  },
+  "scripts": {},
+  "devDependencies": {
+    "@zodios/core": "^10.9.6",
+    "zod": "^3.24.2"
+  },
+  "peerDependencies": {
+    "@zodios/core": "^10.9.6",
+    "zod": "^3.24.2"
+  },
+  "typeScriptVersion": "=<4.5",
+  "publishConfig": {
+    "@fatahchan:registry": "https://npm.pkg.github.com"
+  }
+}

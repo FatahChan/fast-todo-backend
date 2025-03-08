@@ -36,7 +36,10 @@ jobs:
 
       - name: Generate TypeScript types
         run: |
-          npx openapi-typescript openapi.json -o sdk/typescript/fast-todo-backend-openapi-typescript/index.d.ts -y
+          npx openapi-typescript openapi.json -o sdk/typescript/fast-todo-backend-openapi-typescript/index.d.ts
+      - name: Generate Zodios Client
+        run: |
+          npx openapi-zod-client openapi.json -o sdk/typescript/fast-todo-backend-openapi-zodios/index.ts
 
       - name: Sync package version
         run: |
