@@ -41,12 +41,22 @@ jobs:
         run: |
           npx openapi-zod-client openapi.json -o sdk/typescript/fast-todo-backend-openapi-zodios/index.ts
 
-      - name: Sync package version
+      - name: Sync package version for TypeScript types
         run: |
           VERSION=$(python -c "import tomllib; print(tomllib.load(open('pyproject.toml', 'rb'))['project']['version'])")
           cd sdk/typescript/fast-todo-backend-openapi-typescript
           npm version $VERSION --no-git-tag-version --allow-same-version
 
+      - name: Sync package version for Zodios client
+        run: |
+          VERSION=$(python -c "import tomllib; print(tomllib.load(open('pyproject.toml', 'rb'))['project']['version'])")
+          cd sdk/typescript/fast-todo-backend-openapi-zodios
+          npm version $VERSION --no-git-tag-version --allow-same-version
+
       - run: cd sdk/typescript/fast-todo-backend-openapi-typescript && npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+      - run: cd sdk/typescript/fast-todo-backend-openapi-zodios && npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
