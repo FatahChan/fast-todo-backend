@@ -1,5 +1,5 @@
 {
-  "name": "@fatahchan/fast-todo-backend-openapi-typescript",
+  "name": "@fatahchan/fast-todo-backend-openapi-zodios",
   "description": "Openapi TypeScript types definitions for fast-todo-backend",
   "homepage": "https://github.com/FatahChan/fast-todo-backend",
   "license": "MIT",
