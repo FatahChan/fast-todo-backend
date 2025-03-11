@@ -1,15 +1,15 @@
-from sqlmodel import Field, SQLModel, select
+from sqlmodel import Field, SQLModel, select, Session
 from datetime import datetime
 from typing import Annotated
 from pydantic import StringConstraints
 
-TodoPublicId = Annotated[str, StringConstraints(pattern=r"^TD-\d{6}\\d{4}$")]
+TodoPublicId = Annotated[str, StringConstraints(pattern=r"^TD-\d{6}\d{4}$")]
 
 def generate_public_id():
-    from app.database import get_session  # Import here to avoid circular imports
+    from app.database import engine  # Import engine instead of get_session
     
     prefix = f"TD-{datetime.now():%Y%m}"
-    with get_session() as session:
+    with Session(engine) as session:
         # Get latest todo for current month
         latest = session.exec(
             select(Todo)
@@ -30,7 +30,7 @@ class Todo(SQLModel, table=True):
         unique=True,
         index=True,
         description="Public ID of the todo, format with TD-YYYYMMXXXX",
-        regex=r"^TD-\d{6}\\d{4}$"
+        regex=r"^TD-\d{6}\d{4}$"
     )
     name: str = Field(index=True)
     completed: bool = Field(default=False)
